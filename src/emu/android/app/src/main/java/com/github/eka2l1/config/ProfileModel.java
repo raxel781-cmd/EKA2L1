@@ -53,6 +53,9 @@ public class ProfileModel {
     @SerializedName("ScreenScaleRatio")
     public int screenScaleRatio;
 
+    @SerializedName("RenderResolutionScale")
+    public int renderResolutionScale;
+
     @SerializedName("Orientation")
     public int orientation;
 
@@ -120,6 +123,7 @@ public class ProfileModel {
         screenScaleType = 1;
         screenGravity = 1;
         screenScaleRatio = 100;
+        renderResolutionScale = 1;
         screenShowNotch = false;
 
         showKeyboard = true;

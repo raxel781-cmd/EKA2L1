@@ -164,60 +164,35 @@ namespace eka2l1::drivers {
     }
 
     void bitmap::resize(graphics_driver *driver, const eka2l1::vec2 &new_size) {
-    // Keep the logical game/framebuffer resolution unchanged.
-    logical_size = new_size;
+        auto tex_to_replace = std::move(instantiate_suit_color_bitmap_texture(driver, new_size, bpp));
+        auto ds_tex_to_replace = std::move(instantiate_bitmap_depth_stencil_texture(driver, new_size));
 
-    // Framebuffers use the physical internal render resolution.
-    const eka2l1::vec2 physical_size =
-        fb ? eka2l1::vec2{
-                 new_size.x * render_scale,
-                 new_size.y * render_scale
-             }
-           : new_size;
+        if (fb) {
+            auto new_fb = make_framebuffer(driver, { tex_to_replace.get() }, { 0 }, ds_tex_to_replace.get(), 0,
+                ds_tex_to_replace.get(), 0);
 
-    auto tex_to_replace = std::move(
-        instantiate_suit_color_bitmap_texture(driver, physical_size, bpp));
+            fb->bind(driver, framebuffer_bind_read);
+            new_fb->bind(driver, framebuffer_bind_draw);
 
-    auto ds_tex_to_replace = std::move(
-        instantiate_bitmap_depth_stencil_texture(driver, physical_size));
+            eka2l1::rect source_region;
+            source_region.top = { 0, 0 };
+            source_region.size = tex->get_size();
 
-    if (fb) {
-        auto new_fb = make_framebuffer(
-            driver,
-            { tex_to_replace.get() },
-            { 0 },
-            ds_tex_to_replace.get(),
-            0,
-            ds_tex_to_replace.get(),
-            0);
+            eka2l1::rect dest_region;
+            dest_region.top = { 0, 0 };;
+            dest_region.size = new_size;
 
-        fb->bind(driver, framebuffer_bind_read);
-        new_fb->bind(driver, framebuffer_bind_draw);
+            fb->blit(source_region, dest_region, draw_buffer_bit_color_buffer, filter_option::linear);
 
-        eka2l1::rect source_region;
-        source_region.top = { 0, 0 };
-        source_region.size = tex->get_size();
+            new_fb->unbind(driver);
+            fb->unbind(driver);
 
-        eka2l1::rect dest_region;
-        dest_region.top = { 0, 0 };
-        dest_region.size = physical_size;
+            fb = std::move(new_fb);
+        }
 
-        fb->blit(
-            source_region,
-            dest_region,
-            draw_buffer_bit_color_buffer,
-            filter_option::linear);
-
-        new_fb->unbind(driver);
-        fb->unbind(driver);
-
-        fb = std::move(new_fb);
+        tex = std::move(tex_to_replace);
+        ds_tex = std::move(ds_tex_to_replace);
     }
-
-    tex = std::move(tex_to_replace);
-    ds_tex = std::move(ds_tex_to_replace);
-}
-
 
     void bitmap::init_fb(graphics_driver *driver) {
     // Internal framebuffer scale: 2x for the first validation build.

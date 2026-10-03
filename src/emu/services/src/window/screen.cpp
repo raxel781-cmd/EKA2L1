@@ -115,6 +115,7 @@ namespace eka2l1::epoc {
         , ui_rotation(0)
         , refresh_rate(60)
         , display_scale_factor(1.0f)
+        , render_resolution_scale_factor(1.0f)
         , logic_scale_factor_x(1.0f)
         , logic_scale_factor_y(1.0f)
         , requested_ui_scale_factor(-1.0f)
@@ -1029,5 +1030,9 @@ namespace eka2l1::epoc {
         }
 
         try_change_display_rescale(driver, correct_display_scale_factor);
+    }
+
+    void screen::set_render_resolution_scale_factor(const float scale_factor) {
+        render_resolution_scale_factor = common::clamp(scale_factor, 1.0f, 4.0f);
     }
 }

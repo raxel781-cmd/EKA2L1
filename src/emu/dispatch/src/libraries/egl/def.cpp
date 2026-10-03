@@ -52,7 +52,7 @@ namespace eka2l1::dispatch {
         , current_scale_(1.0f)
         , bounded_context_(nullptr) {
         if (screen) {
-            current_scale_ = screen->display_scale_factor;
+            current_scale_ = screen->display_scale_factor * screen->render_resolution_scale_factor;
         }
 
         if (backed_window_) {
@@ -86,10 +86,13 @@ namespace eka2l1::dispatch {
     }
 
     void egl_surface::scale(egl_context *context, drivers::graphics_driver *drv) {
-        if (current_scale_ != backed_screen_->display_scale_factor) {
-            // Silently resize and scale
-            float new_display_factor = backed_screen_->display_scale_factor;
-            eka2l1::vec2 new_scaled_size = dimension_ * new_display_factor;
+        const float target_scale =
+                backed_screen_->display_scale_factor * backed_screen_->render_resolution_scale_factor;
+        if (current_scale_ != target_scale) {
+            // Resize the actual EGL default framebuffer. The presentation layer still
+            // fits this texture into the Android window, so this is true internal
+            // render resolution rather than post-process upscaling.
+            eka2l1::vec2 new_scaled_size = dimension_ * target_scale;
 
             drivers::handle new_surface = drivers::create_bitmap(drv, new_scaled_size, 32);
 
@@ -99,7 +102,7 @@ namespace eka2l1::dispatch {
             context->cmd_builder_.destroy_bitmap(handle_);
 
             handle_ = new_surface;
-            current_scale_ = backed_screen_->display_scale_factor;
+            current_scale_ = target_scale;
         }
     }
 

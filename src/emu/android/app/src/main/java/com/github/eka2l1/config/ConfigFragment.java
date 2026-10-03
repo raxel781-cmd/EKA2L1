@@ -94,6 +94,7 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
     protected Spinner spOrientation;
     protected Spinner spScreenGravity;
     protected Spinner spScaleType;
+    protected Spinner spRenderResolution;
     protected TextView tvUpscaleShader;
     protected Spinner spUpscaleShader;
 
@@ -241,6 +242,7 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
         cmdViewScreenBgImg = view.findViewById(R.id.cmdScreenViewBgImg);
         spScreenGravity = view.findViewById(R.id.spScreenGravity);
         spScaleType = view.findViewById(R.id.spScaleType);
+        spRenderResolution = view.findViewById(R.id.spRenderResolution);
         sbBgImgOpacity = view.findViewById(R.id.sbScreenBgImgOpacity);
         etBgImgOpacityValue = view.findViewById(R.id.etScreenBgImgOpacityValue);
         sbScaleRatio = view.findViewById(R.id.sbScaleRatio);
@@ -474,6 +476,7 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
         etScaleRatioValue.setText(Integer.toString(params.screenScaleRatio));
         spOrientation.setSelection(params.orientation);
         spScaleType.setSelection(params.screenScaleType);
+        spRenderResolution.setSelection(Math.max(0, Math.min(params.renderResolutionScale - 1, 3)));
         spScreenGravity.setSelection(params.screenGravity);
         cbShowNotch.setChecked(params.screenShowNotch);
         cbBgImgKeepAspectRatio.setChecked(params.screenBackgroundImageKeepAspectRatio);
@@ -521,6 +524,7 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
             params.orientation = spOrientation.getSelectedItemPosition();
             params.screenGravity = spScreenGravity.getSelectedItemPosition();
             params.screenScaleType = spScaleType.getSelectedItemPosition();
+            params.renderResolutionScale = spRenderResolution.getSelectedItemPosition() + 1;
             params.screenShowNotch = cbShowNotch.isChecked();
             params.screenBackgroundImageKeepAspectRatio = cbBgImgKeepAspectRatio.isChecked();
 

@@ -794,7 +794,9 @@ public class Emulator {
 
     public static native String[] getLanguageNames();
 
-    public static native void setScreenParams(int backgroundColor, int scaleRatio, int scaleType, int gravity, String bgImgPath, float bgImgOpacity, boolean bgImgKeepAspect);
+    public static native void setScreenParams(int backgroundColor, int scaleRatio, int scaleType, int gravity,
+                                                String bgImgPath, float bgImgOpacity, boolean bgImgKeepAspect,
+                                                float renderResolutionScale);
 
     public static native boolean runTest(String testName);
 

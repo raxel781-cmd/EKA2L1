@@ -340,12 +340,15 @@ Java_com_github_eka2l1_emu_Emulator_setScreenParams(JNIEnv *env, jclass clazz,
                                                     jint background_color, jint scale_ratio,
                                                     jint scale_type, jint gravity,
                                                     jstring bg_img_path, jfloat bg_img_opacity,
-                                                    jboolean bg_img_keep_aspect) {
+                                                    jboolean bg_img_keep_aspect,
+                                                    jfloat render_resolution_scale) {
     const char *cstr = env->GetStringUTFChars(bg_img_path, nullptr);
     std::string cpath = std::string(cstr);
     env->ReleaseStringUTFChars(bg_img_path, cstr);
 
-    state->launcher->set_screen_params(background_color, scale_ratio, scale_type, gravity, cpath, bg_img_opacity, bg_img_keep_aspect);
+    state->launcher->set_screen_params(background_color, scale_ratio, scale_type, gravity,
+                                        cpath, bg_img_opacity, bg_img_keep_aspect,
+                                        render_resolution_scale);
 }
 
 extern "C"

@@ -79,6 +79,9 @@ namespace eka2l1::epoc {
         std::uint8_t refresh_rate;
 
         float display_scale_factor;
+        // Additional scale applied only to EGL default framebuffer rendering.
+        // This is the user-selectable internal render resolution (1x..4x).
+        float render_resolution_scale_factor;
         float logic_scale_factor_x;
         float logic_scale_factor_y;
         float requested_ui_scale_factor;
@@ -256,6 +259,8 @@ namespace eka2l1::epoc {
         void set_screen_mode(window_server *winserv, drivers::graphics_driver *drv, const int mode);
         void set_native_scale_factor(drivers::graphics_driver *driver, const float scale_factor_x,
             const float scale_factor_y);
+
+        void set_render_resolution_scale_factor(const float scale_factor);
 
         /**
          * \brief Resize the screen.

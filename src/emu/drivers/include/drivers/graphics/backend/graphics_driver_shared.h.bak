@@ -46,13 +46,6 @@ namespace eka2l1::drivers {
         texture_ptr ds_tex;
         int bpp;
 
-        // Logical game/framebuffer size.
-        // The actual GPU texture may be larger when internally scaled.
-        eka2l1::vec2 logical_size;
-
-        // Internal render resolution scale for this bitmap.
-        int render_scale = 1;
-
         explicit bitmap(graphics_driver *driver, const eka2l1::vec2 &size, const int initial_bpp);
         virtual ~bitmap();
 

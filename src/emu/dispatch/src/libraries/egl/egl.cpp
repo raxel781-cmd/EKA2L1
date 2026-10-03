@@ -256,7 +256,10 @@ namespace eka2l1::dispatch {
             return EGL_NO_SURFACE_EMU;
         }
 
-        drivers::handle hh = drivers::create_bitmap(driver, canvas->size_for_egl_surface() * canvas->scr->display_scale_factor, choosen_config.buffer_size());
+        const float render_scale =
+                canvas->scr->display_scale_factor * canvas->scr->render_resolution_scale_factor;
+        drivers::handle hh = drivers::create_bitmap(driver,
+            canvas->size_for_egl_surface() * render_scale, choosen_config.buffer_size());
         if (hh == 0) {
             egl_push_error(sys, EGL_BAD_CONFIG);
             return EGL_NO_SURFACE_EMU;

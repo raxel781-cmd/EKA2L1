@@ -104,7 +104,8 @@ namespace eka2l1::android {
         std::vector<std::string> get_language_names();
         void set_screen_params(std::uint32_t background_color, std::uint32_t scale_ratio,
                                std::uint32_t scale_type, std::uint32_t gravity, const std::string &bg_img_path,
-                               float bg_img_opacity, bool keep_bg_aspect);
+                               float bg_img_opacity, bool keep_bg_aspect,
+                               float render_resolution_scale);
         bool open_input_view(const std::u16string &initial_text,
                              const int max_len,
                              drivers::ui::input_dialog_complete_callback complete_callback);

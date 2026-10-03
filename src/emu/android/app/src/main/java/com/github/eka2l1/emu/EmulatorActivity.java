@@ -249,7 +249,8 @@ public class EmulatorActivity extends AppCompatActivity {
                 params.screenScaleType, params.screenGravity,
                 hasBackground ? ProfilesManager.getBackgroundPath(configDir.getAbsolutePath()) : "",
                 Math.max(0.0f, Math.min(params.screenBackgroundImageOpacity / 100.0f, 1.0f)),
-                params.screenBackgroundImageKeepAspectRatio);
+                params.screenBackgroundImageKeepAspectRatio,
+                Math.max(1.0f, Math.min(params.renderResolutionScale, 4)));
     }
 
     @Override

@@ -353,6 +353,29 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/spScaleType" />
 
+            <TextView
+                android:id="@+id/tvRenderResolution"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/height_config_row"
+                android:layout_marginStart="5dp"
+                android:gravity="center_vertical"
+                android:text="@string/pref_screen_render_resolution"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="?attr/textColorSecondary"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@+id/barrierScreenConfig"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cbShowNotch" />
+
+            <Spinner
+                android:id="@+id/spRenderResolution"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/height_config_row"
+                android:entries="@array/pref_render_resolution_entries"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/barrierScreenConfig"
+                app:layout_constraintTop_toBottomOf="@+id/cbShowNotch" />
+
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/cbShouldUseShaderForUpscale"
                 style="@style/SwitchStyle"
@@ -363,7 +386,7 @@
                 android:text="@string/pref_screen_scale_use_shader"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cbShowNotch" />
+                app:layout_constraintTop_toBottomOf="@id/spRenderResolution" />
 
             <TextView
                 android:id="@+id/tvUpscaleShader"

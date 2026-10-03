@@ -733,7 +733,8 @@ namespace eka2l1::android {
     void launcher::set_screen_params(std::uint32_t background_color, std::uint32_t scale_ratio,
                                      std::uint32_t scale_type, std::uint32_t gravity,
                                      const std::string &bg_img_path,
-                                     float bg_img_opacity, bool bg_keep_aspect_ratio) {
+                                     float bg_img_opacity, bool bg_keep_aspect_ratio,
+                                     float render_resolution_scale) {
         background_color_[0] = (background_color >> 16) & 0xFF;
         background_color_[1] = (background_color >> 8) & 0xFF;
         background_color_[2] = background_color & 0xFF;
@@ -743,6 +744,14 @@ namespace eka2l1::android {
         background_img_path_ = bg_img_path;
         background_img_opacity_ = bg_img_opacity;
         keep_bg_aspect_ = bg_keep_aspect_ratio;
+
+        // Apply the requested internal render scale to every emulated screen.
+        // This does not change the Android window size.
+        if (winserv) {
+            for (epoc::screen *scr = winserv->get_screens(); scr != nullptr; scr = scr->next) {
+                scr->set_render_resolution_scale_factor(render_resolution_scale);
+            }
+        }
     }
 
     bool launcher::open_input_view(const std::u16string &initial_text, const int max_len,
