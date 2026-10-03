@@ -435,11 +435,11 @@ namespace eka2l1::drivers {
 
         if (slot_free != bmp_textures.end()) {
             *slot_free = std::make_unique<bitmap>(this, size, static_cast<int>(bpp));
-            (*slot_free)->render_scale = render_scale;
+        (*slot_free)->render_scale = 2;
             *result = std::distance(bmp_textures.begin(), slot_free) + 1;
         } else {
             bmp_textures.push_back(std::make_unique<bitmap>(this, size, static_cast<int>(bpp)));
-            bmp_textures.back()->render_scale = render_scale;
+        bmp_textures.back()->render_scale = 2;
             *result = bmp_textures.size();
         }
 
